@@ -1,4 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-    <p>Posts go here</p>
+    {% for post in posts %}
+        <h4>{{ post.author }}</h4>
+        <p>{{ post.content }}</p>
+        <button style="width: 90px; height: 30px; text-align: center; font-size: 15px" type="button" onclick="window.location='/comment/{{ post.id }}';">Comment</button>
+        {% for comment in post.comments %}
+            <p>{% for i in range(comment.level) %}==={% endfor %}>{{ comment.user }}: {{ comment.content }} <a href="/comment/{{ comment.id }}">Reply</a> </p>
+        {% endfor %}
+        <h1>-------------------------------------</h1>
+    {% endfor %}
 {% endblock content %}
