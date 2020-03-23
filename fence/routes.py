@@ -8,8 +8,9 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 posts = [
     {
-        "id": "1",
+        "id": "0",
         "author": "Joe",
+        "title": "this is a title",
         "content": "Wow guys Im fencing this is so cool",
         "comments": [
             {"id": "1", "level": 0, "user": "jj", "content": "Ah"},
@@ -19,14 +20,16 @@ posts = [
         ]
     },
     {
-        "id": "2",
+        "id": "1",
         "author": "Steve",
+        "title": "this is a title 2",
         "content": "K",
         "comments": []
     },
     {
-        "id": "3",
+        "id": "2",
         "author": "Mike",
+        "title": "this is a title 3",
         "content": "SIKE MY GUYYYYYYYYYYYYY...",
         "comments": [
             {"id": "1", "level": 0, "user": "Jared", "content": "love it!"},
@@ -62,6 +65,12 @@ def write_post():
         flash('Posted!')
         return redirect(url_for('feed'))
     return render_template('write_post.html', title='New Post', form=form, legend="New Post")
+
+@app.route("/post/<int:post_id>")
+def post(post_id):
+    # get post from microservice and display it along with its comments and ability to comment more
+    post = posts[post_id]
+    return render_template('post.html', post=post)
 
 
 @app.route("/register", methods=['GET', 'POST'])

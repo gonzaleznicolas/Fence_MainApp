@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="post">
+	<h4>{{ post.title }}</h4>
+	<p>{{ post.author }}</p>
+	<p>{{ post.content }}</p>
+	{% if current_user.is_authenticated %}
+		<button class="btn btn-info" type="button" onclick="window.location='/comment/{{ post.id }}';">Comment</button>
+	{% endif %}
+	{% for comment in post.comments %}
+		<p>{{ comment.user }}: {{ comment.content }}</p>
+		{% if current_user.is_authenticated %}
+			<button class="ml-2 btn btn-info" href="/comment/{{ comment.id }}">Reply</button>
+		{% endif %}
+	{% endfor %}
+</div>
+{% endblock content %}
