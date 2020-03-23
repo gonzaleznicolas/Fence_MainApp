@@ -1,24 +1,31 @@
 body {
-	color: #845d3b;
-	margin-top: 90px;
-  }
-  
-  .color-fence {
-	background-color :#d3b47d;
-  }
-  
-  .fence-header .navbar-nav .nav-link {
-	color: #845d3b;
-  }
-  
-  .fence-header .navbar-nav .nav-link:hover {
-	color: 	#ffffff;
-  }
+color: #845d3b;
+margin-top: 90px;
+}
 
-  .nav-items-right{
-	justify-content: flex-end;
-  }
-   
-  .independent-section {
-	padding: 10px 20px;
-  }
+.color-fence {
+background-color :#d3b47d;
+}
+
+.fence-header .navbar-nav .nav-link {
+color: #845d3b;
+}
+
+.fence-header .navbar-nav .nav-link:hover {
+color: 	#ffffff;
+}
+
+.nav-items-right{
+justify-content: flex-end;
+}
+  
+.independent-section {
+padding: 10px 20px;
+}
+
+.post{
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px 0px;
+}

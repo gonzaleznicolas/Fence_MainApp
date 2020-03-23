@@ -47,8 +47,8 @@ def feed():
 def comment(post_id):
     form = CommentForm()
     if form.validate_on_submit():
-        flash('Posted the following: %s' % form.content.data, 'success')
-        flash('Posted!', 'success')
+        flash('Posted the following: %s' % form.content.data)
+        flash('Posted!')
         return redirect(url_for('feed'))
     return render_template('write_post.html', title='New Comment', form=form, legend="New Comment")
 
@@ -58,8 +58,8 @@ def post():
     form = PostForm()
     if form.validate_on_submit():
         # tell the model about the post. Text, user, time
-        flash('Posted the following: %s' % (form.content.data), 'success')
-        flash('Posted!', 'success')
+        flash('Posted the following: %s: %s' % (form.title.data, form.content.data))
+        flash('Posted!')
         return redirect(url_for('feed'))
     return render_template('write_post.html', title='New Post', form=form, legend="New Post")
 
