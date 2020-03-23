@@ -10,7 +10,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/feed")
 def feed():
-    return render_template('feed.html', posts=postAndCommentModel.posts)
+    return render_template('feed.html', posts=postAndCommentModel.getMostRecentPosts(20))
 
 
 @app.route("/comment/<int:post_id>", methods=['GET', 'POST'])
@@ -27,10 +27,8 @@ def comment(post_id):
 def write_post():
     form = PostForm()
     if form.validate_on_submit():
-        newPost(form.title.data, form.content.data, current_user.id)
-        # tell the model about the post. form.title.data, form.content.data, current_user.id, time
+        postAndCommentModel.newPost(form.title.data, form.content.data, current_user.id)
         flash('Posted the following: %s: %s' % (form.title.data, form.content.data))
-        flash('Posted!')
         return redirect(url_for('feed'))
     return render_template('write_post.html', title='New Post', form=form, legend="New Post")
 
@@ -38,8 +36,9 @@ def write_post():
 @app.route("/post/<int:post_id>")
 def post(post_id):
     # get post from microservice and display it along with its comments and ability to comment more
-    post = postAndCommentModel.posts[post_id]
-    return render_template('post.html', post=post)
+    post = postAndCommentModel.getPost(post_id)
+    comments = postAndCommentModel.getCommentsForPost(post_id)
+    return render_template('post.html', post=post, comments=comments)
 
 
 @app.route("/register", methods=['GET', 'POST'])
