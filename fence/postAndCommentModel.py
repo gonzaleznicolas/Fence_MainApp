@@ -5,19 +5,19 @@ from fence.userModel import User
 posts = [
     {
         "id": "0",
-        "author": "Joe Jackson",
+        "author_id": "1",
         "title": "What is software?",
         "content": "Soeone explain it to me...",
     },
     {
         "id": "1",
-        "author": "Steve Terry",
+        "author_id": "2",
         "title": "What is fence",
         "content": "What is this website?",
     },
     {
         "id": "2",
-        "author": "Mike Lund",
+        "author_id": "3",
         "title": "I like software",
         "content": "Do you all agree?",
     }
@@ -45,7 +45,9 @@ def newPost(title, content, user_id):
 	print('New post by %d at %s... %s: %s' % (user_id, time.strftime("%m/%d/%Y"), title, content))
 
 def getPost(post_id):
-	return posts[post_id]
+	post = posts[post_id]
+	post['author'] = User.query.filter_by(id=post['author_id']).first().username
+	return post
 	
 
 def getCommentsForPost(post_id):

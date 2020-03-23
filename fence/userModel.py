@@ -17,5 +17,5 @@ class User(db.Model, UserMixin):
 
     # this defines how to print a user. Useful for interacting with DB from command line
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}')"
+        return f"User('{self.id}' ,'{self.username}', '{self.email}')"
 
