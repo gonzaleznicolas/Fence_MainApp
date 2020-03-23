@@ -1,44 +1,11 @@
 import os
 import secrets
+from fence.postAndCommentModel import *
 from flask import render_template, url_for, flash, redirect, request
 from fence import app, db, bcrypt
 from fence.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, CommentForm
-from fence.models import User
+from fence.userModel import User
 from flask_login import login_user, current_user, logout_user, login_required
-
-posts = [
-    {
-        "id": "0",
-        "author": "Joe Jackson",
-        "title": "What is software?",
-        "content": "Soeone explain it to me...",
-        "comments": [
-            {"id": "1", "level": 0, "user": "Jack", "content": "Ah"},
-            {"id": "2", "level": 1, "user": "Charlie", "content": "What"},
-            {"id": "3", "level": 2, "user": "Alice", "content": "Ok"},
-            {"id": "4", "level": 2, "user": "Bob", "content": "lol"}
-        ]
-    },
-    {
-        "id": "1",
-        "author": "Steve Terry",
-        "title": "What is fence",
-        "content": "What is this website?",
-        "comments": []
-    },
-    {
-        "id": "2",
-        "author": "Mike Lund",
-        "title": "I like software",
-        "content": "Do you all agree?",
-        "comments": [
-            {"id": "1", "level": 0, "user": "Jared", "content": "love it!"},
-            {"id": "3", "level": 1, "user": "keemstar", "content": "love you!"},
-            {"id": "2", "level": 0, "user": "Jared", "content": "love it XD!"}
-        ]
-    }
-]
-
 
 @app.route("/")
 @app.route("/feed")
@@ -65,6 +32,7 @@ def write_post():
         flash('Posted!')
         return redirect(url_for('feed'))
     return render_template('write_post.html', title='New Post', form=form, legend="New Post")
+
 
 @app.route("/post/<int:post_id>")
 def post(post_id):
