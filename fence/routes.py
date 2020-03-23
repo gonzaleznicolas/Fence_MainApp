@@ -1,6 +1,6 @@
 import os
 import secrets
-from fence.postAndCommentModel import *
+import fence.postAndCommentModel as postAndCommentModel
 from flask import render_template, url_for, flash, redirect, request
 from fence import app, db, bcrypt
 from fence.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, CommentForm
@@ -10,7 +10,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/feed")
 def feed():
-    return render_template('feed.html', posts=posts)
+    return render_template('feed.html', posts=postAndCommentModel.posts)
 
 
 @app.route("/comment/<int:post_id>", methods=['GET', 'POST'])
@@ -27,6 +27,7 @@ def comment(post_id):
 def write_post():
     form = PostForm()
     if form.validate_on_submit():
+        newPost(form.title.data, form.content.data, current_user.id)
         # tell the model about the post. form.title.data, form.content.data, current_user.id, time
         flash('Posted the following: %s: %s' % (form.title.data, form.content.data))
         flash('Posted!')
@@ -37,7 +38,7 @@ def write_post():
 @app.route("/post/<int:post_id>")
 def post(post_id):
     # get post from microservice and display it along with its comments and ability to comment more
-    post = posts[post_id]
+    post = postAndCommentModel.posts[post_id]
     return render_template('post.html', post=post)
 
 

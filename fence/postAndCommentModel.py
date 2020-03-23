@@ -1,3 +1,4 @@
+from datetime import datetime
 from fence import db
 from fence.userModel import User
 
