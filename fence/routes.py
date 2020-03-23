@@ -53,11 +53,11 @@ def comment(post_id):
     return render_template('write_post.html', title='New Comment', form=form, legend="New Comment")
 
 
-@app.route("/post", methods=['GET', 'POST'])
-def post():
+@app.route("/post/write", methods=['GET', 'POST'])
+def write_post():
     form = PostForm()
     if form.validate_on_submit():
-        # tell the model about the post. Text, user, time
+        # tell the model about the post. form.title.data, form.content.data, user, time
         flash('Posted the following: %s: %s' % (form.title.data, form.content.data))
         flash('Posted!')
         return redirect(url_for('feed'))
