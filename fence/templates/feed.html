@@ -7,8 +7,12 @@
             <button style="width: 90px; height: 30px; text-align: center; font-size: 15px" type="button" onclick="window.location='/comment/{{ post.id }}';">Comment</button>
         {% endif %}
         {% for comment in post.comments %}
-            <p>{% for i in range(comment.level) %}==={% endfor %}>{{ comment.user }}: {{ comment.content }} <a href="/comment/{{ comment.id }}">Reply</a> </p>
+        <div style="display: flex; flex-direction: row;">
+            <p>{% for i in range(comment.level) %}==={% endfor %}>{{ comment.user }}: {{ comment.content }}</p>
+            {% if current_user.is_authenticated %}
+            <a class="ml-2" href="/comment/{{ comment.id }}">Reply</a>
+            {% endif %}
+        </div>
         {% endfor %}
-        <h1>-------------------------------------</h1>
     {% endfor %}
 {% endblock content %}
