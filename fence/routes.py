@@ -60,7 +60,7 @@ def comment(post_id):
 def write_post():
     form = PostForm()
     if form.validate_on_submit():
-        # tell the model about the post. form.title.data, form.content.data, user, time
+        # tell the model about the post. form.title.data, form.content.data, current_user.id, time
         flash('Posted the following: %s: %s' % (form.title.data, form.content.data))
         flash('Posted!')
         return redirect(url_for('feed'))
