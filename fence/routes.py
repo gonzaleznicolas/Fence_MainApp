@@ -14,7 +14,8 @@ posts = [
         "comments": [
             {"id": "1", "level": 0, "user": "jj", "content": "Ah"},
             {"id": "2", "level": 1, "user": "rawr", "content": "What"},
-            {"id": "3", "level": 2, "user": "Hi", "content": "Ok"}
+            {"id": "3", "level": 2, "user": "Hi", "content": "Ok"},
+            {"id": "4", "level": 2, "user": "Hi", "content": "poo"}
         ]
     },
     {
