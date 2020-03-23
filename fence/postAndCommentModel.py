@@ -45,7 +45,9 @@ def newPost(title, content, user_id):
 	print('New post by %d at %s... %s: %s' % (user_id, time.strftime("%m/%d/%Y"), title, content))
 
 def getPost(post_id):
-	post = posts[post_id]
+	post = posts[post_id] # replace this with getting post from microservice
+
+	# get username from author_id
 	post['author'] = User.query.filter_by(id=post['author_id']).first().username
 	return post
 	
