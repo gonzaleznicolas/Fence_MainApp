@@ -21,13 +21,15 @@ fake_comments_db = {
 			"author_id": 1,
 			"time": datetime.now(),
 			"content": "What a stupid title...",
-			"comments": [
+			"comments":
+			[
 				{
 					"comment_id": 2222,
 					"author_id": 2,
 					"time": datetime.now(),
 					"content": "I think its great",
-					"comments": [
+					"comments":
+					[
 						{
 							"comment_id": 444,
 							"author_id": 1,
@@ -72,6 +74,10 @@ def commentOnComment(post_id, parent_comment_id, author_id, content):
 	for comment0 in comment_array0:
 		if comment0['comment_id'] == parent_comment_id:
 			parent_comment = comment0
+		comments_array1 = comment0['comments']
+		for comment1 in comments_array1:
+			if comment1['comment_id'] == parent_comment_id:
+				parent_comment = comment1
 
 	parent_comment['comments'].append(new_comment)
 
