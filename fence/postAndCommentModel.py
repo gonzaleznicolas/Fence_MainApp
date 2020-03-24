@@ -40,9 +40,10 @@ test_comments = [
     ]
 ]
 
-def newPost(title, content, user_id):
+def newPost(title, content, author_id):
 	time = datetime.now()
-	print('New post by %d at %s... %s: %s' % (user_id, time.strftime("%m/%d/%Y"), title, content))
+
+	test_posts.append({"id": f"{len(test_posts)}", "author_id": f"{author_id}", "title": title, "content": content})
 
 def getPost(post_id):
 	post = test_posts[post_id] # replace this with getting post from microservice
