@@ -35,6 +35,7 @@ def write_post():
 
 @app.route("/post/<int:post_id>")
 def post(post_id):
+    print(post_id)
     # get post from microservice and display it along with its comments and ability to comment more
     post = postAndCommentModel.getPost(post_id)
     comments = postAndCommentModel.getCommentsForPost(post_id)
