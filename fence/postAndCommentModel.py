@@ -3,6 +3,8 @@ from datetime import datetime
 from fence import db
 from fence.userModel import User
 
+# SOME FAKE DATA STRUCTURES TO HOLD POSTS AND COMMENTS.
+# NEED TO BE REPLACED WITH INTERACTION WITH THE MICROSERVICE
 fake_posts_db = { 
 	12345: 
 	{
@@ -52,6 +54,12 @@ fake_comments_db = {
 }
 
 
+# preconditions:
+#	- the passed in id's correspond to real data
+#	- the content is a valid string for a comment
+#	- the parent_comment_id is not at the third level of nesting
+# postcondition:
+#	- the comment has been persisted
 def commentOnComment(post_id, parent_comment_id, author_id, content):
 	print(f"{post_id} {parent_comment_id} {author_id} {content}")
 
@@ -83,6 +91,11 @@ def commentOnComment(post_id, parent_comment_id, author_id, content):
 	parent_comment['comments'].append(new_comment)
 
 
+# preconditions:
+#	- the passed in id's correspond to real data
+#	- the content is a valid string for a comment
+# postcondition:
+#	- the comment has been persisted
 def commentOnPost(post_id, author_id, content):
 	comment_id = uuid.uuid1().int
 	time = datetime.now()
@@ -98,7 +111,11 @@ def commentOnPost(post_id, author_id, content):
 	fake_comments_db[post_id].append(new_comment)
 
 
-# expected to store the post with the passed in title, content, and author_id
+# preconditions:
+#	- author_id indeed corresponds to a user in the db
+#	- title and content are valid strings
+# postcondition:
+#	- the post has been persisted
 def newPost(title, content, author_id):
 	post_id = uuid.uuid1().int
 	time = datetime.now()
@@ -112,6 +129,7 @@ def newPost(title, content, author_id):
 # {
 # 	"id": <int>
 # 	"author_id": <int>
+#	"time": <datetime>
 # 	"title": <string>
 # 	"content": <string>
 # }
