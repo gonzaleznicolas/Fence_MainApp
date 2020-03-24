@@ -1,38 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="post">
+<div class="box">
 	<h4>{{ post.title }}</h4>
 	<small>{{ post.author }}</small>
-	<p>{{ post.content }}</p>
+	<p style="margin: 0;">{{ post.content }}</p>
 	{% if current_user.is_authenticated %}
 		<a href="/comment/{{ post.id }}">Comment</a>
 	{% endif %}
 </div>
-<div>
-	{% for comment0 in comments %}
+{% for comment0 in comments %}
+	<div class="box">
 		<small>{{ comment0.author }}</small>
-		<p>{{ comment0.content }}</p>
+		<div>{{ comment0.content }}</div>
 		{% if current_user.is_authenticated %}
 			<a href="/comment/{{ comment0.comment_id }}">Reply</a>
 		{% endif %}
-		<div style="margin-left: 40px">
-			{% for comment1 in comment0.comments %}
-				<small>{{ comment1.author }}</small>
-				<p>{{ comment1.content }}</p>
-				{% if current_user.is_authenticated %}
-					<a href="/comment/{{ comment1.comment_id }}">Reply</a>
-				{% endif %}
-				<div style="margin-left: 80px">
-					{% for comment2 in comment1.comments %}
-						<small>{{ comment2.author }}</small>
-						<p>{{ comment2.content }}</p>
-						{% if current_user.is_authenticated %}
-							<a href="/comment/{{ comment2.comment_id }}">Reply</a>
-						{% endif %}
-					{% endfor %}
-				</div>
-			{% endfor %}
+	</div>
+	{% for comment1 in comment0.comments %}
+		<div class="box" style="margin-left: 40px">
+			<small>{{ comment1.author }}</small>
+			<div>{{ comment1.content }}</div>
+			{% if current_user.is_authenticated %}
+				<a href="/comment/{{ comment1.comment_id }}">Reply</a>
+			{% endif %}
 		</div>
+		{% for comment2 in comment1.comments %}
+			<div class="box" style="margin-left: 80px">
+				<small>{{ comment2.author }}</small>
+				<div>{{ comment2.content }}</div>
+				{% if current_user.is_authenticated %}
+					<a href="/comment/{{ comment2.comment_id }}">Reply</a>
+				{% endif %}
+			</div>
+		{% endfor %}
 	{% endfor %}
-</div>
+{% endfor %}
 {% endblock content %}
