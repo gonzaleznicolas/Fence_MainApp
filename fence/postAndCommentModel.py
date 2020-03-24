@@ -49,6 +49,21 @@ fake_comments_db = {
 	]
 }
 
+def commentOnPost(post_id, author_id, content):
+	comment_id = uuid.uuid1().int
+	time = datetime.now()
+
+	comment = {
+		"comment_id": comment_id,
+		"author_id": author_id,
+		"time": time,
+		"content": content,
+		"comments": []
+	}
+
+	fake_comments_db[post_id].append(comment)
+
+
 # expected to store the post with the passed in title, content, and author_id
 def newPost(title, content, author_id):
 	post_id = uuid.uuid1().int

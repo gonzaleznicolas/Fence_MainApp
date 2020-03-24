@@ -13,14 +13,14 @@ def feed():
     return render_template('feed.html', posts=postAndCommentModel.getMostRecentPosts(20))
 
 
-@app.route("/comment/<int:post_id>", methods=['GET', 'POST'])
-def comment(post_id):
+@app.route("/post/comment/<int:post_id>", methods=['GET', 'POST'])
+def comment_on_post(post_id):
     form = CommentForm()
     if form.validate_on_submit():
-        flash('Posted the following: %s' % form.content.data)
-        flash('Posted!')
-        return redirect(url_for('feed'))
-    return render_template('write_post.html', title='New Comment', form=form, legend="New Comment")
+        postAndCommentModel.commentOnPost(post_id, current_user.id, form.content.data)
+        flash('Comment posted!')
+        return redirect(url_for('post', post_id=post_id))
+    return render_template('write_comment.html', title='New Comment', form=form, legend="New Comment")
 
 
 @app.route("/post/write", methods=['GET', 'POST'])
