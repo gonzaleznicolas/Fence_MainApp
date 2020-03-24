@@ -3,9 +3,54 @@ from datetime import datetime
 from fence import db
 from fence.userModel import User
 
-fake_posts_db = {}
+fake_posts_db = { 
+	12345: 
+	{
+		"id": 12345,
+		"author_id": 1,
+		"time": datetime.now(),
+		"title": "This is a test title",
+		"content": "What should I make the content of this post?"
+	}
+}
 
-fake_comments_db = {}
+fake_comments_db = {
+	12345: [
+		{
+			"comment_id": 111,
+			"author_id": 1,
+			"time": datetime.now(),
+			"content": "I dont like your post...",
+			"comments":
+			[
+				{
+					"comment_id": 2222,
+					"author_id": 1,
+					"time": datetime.now(),
+					"content": "I think its great",
+					"comments":
+					[
+						{
+							"comment_id": 444,
+							"author_id": 1,
+							"time": datetime.now(),
+							"content": "Thank you :)",
+							"comments": []
+						},
+					]
+				},
+				{
+					"comment_id": 3333,
+					"author_id": 1,
+					"time": datetime.now(),
+					"content": "Why do you guys care??",
+					"comments": []
+				},
+			]
+		}
+	]
+}
+
 
 def commentOnComment(post_id, parent_comment_id, author_id, content):
 	print(f"{post_id} {parent_comment_id} {author_id} {content}")
@@ -50,8 +95,7 @@ def commentOnPost(post_id, author_id, content):
 		"comments": []
 	}
 
-	post_comment_array = fake_comments_db[post_id]
-	post_comment_array.append(new_comment)
+	fake_comments_db[post_id].append(new_comment)
 
 
 # expected to store the post with the passed in title, content, and author_id
@@ -61,7 +105,7 @@ def newPost(title, content, author_id):
 
 	# replace this with writing an event to the event database
 	fake_posts_db[post_id] = {"id": post_id, "author_id": author_id, "time": time, "title": title, "content": content}
-
+	fake_comments_db[post_id] = []
 
 # input: integer (id of post to get)
 # expected output: dictionary with the following format
