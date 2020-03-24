@@ -5,9 +5,6 @@
             <h4 style="margin-bottom: 0px"><a href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h4>
             <small>{{ post.author }}</small>
             <p style="margin-bottom: 5px">{{ post.content }}</p>
-            {% if current_user.is_authenticated %}
-                <a href="{{ url_for('post', post_id=post.id) }}">Comments</a>
-            {% endif %}
         </div>
     {% endfor %}
 {% endblock content %}
