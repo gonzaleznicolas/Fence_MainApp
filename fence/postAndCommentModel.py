@@ -23,7 +23,7 @@ def getPost(post_id):
 	
 
 def getCommentsForPost(post_id):
-	return fake_comments_db[post_id]
+	return fake_comments_db.get(post_id, [])
 
 def getMostRecentPosts(numberOfPosts):
 	posts = fake_posts_db # replace this with getting post from microservice
