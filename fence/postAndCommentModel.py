@@ -3,53 +3,9 @@ from datetime import datetime
 from fence import db
 from fence.userModel import User
 
-fake_posts_db = { 
-	12345: 
-	{
-		"id": 12345,
-		"author_id": 1,
-		"time": datetime.now(),
-		"title": "This is a test title",
-		"content": "What should I make the content of this post?"
-	}
-}
+fake_posts_db = {}
 
-fake_comments_db = {
-	12345: [
-		{
-			"comment_id": 111,
-			"author_id": 1,
-			"time": datetime.now(),
-			"content": "What a stupid title...",
-			"comments":
-			[
-				{
-					"comment_id": 2222,
-					"author_id": 2,
-					"time": datetime.now(),
-					"content": "I think its great",
-					"comments":
-					[
-						{
-							"comment_id": 444,
-							"author_id": 1,
-							"time": datetime.now(),
-							"content": "Thank you :)",
-							"comments": []
-						},
-					]
-				},
-				{
-					"comment_id": 3333,
-					"author_id": 3,
-					"time": datetime.now(),
-					"content": "Why do you guys care??",
-					"comments": []
-				},
-			]
-		}
-	]
-}
+fake_comments_db = {}
 
 def commentOnComment(post_id, parent_comment_id, author_id, content):
 	print(f"{post_id} {parent_comment_id} {author_id} {content}")

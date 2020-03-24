@@ -38,7 +38,7 @@ def write_post():
     form = PostForm()
     if form.validate_on_submit():
         postAndCommentModel.newPost(form.title.data, form.content.data, current_user.id)
-        flash('Posted the following: %s: %s' % (form.title.data, form.content.data))
+        flash('Posted!')
         return redirect(url_for('feed'))
     return render_template('write_post.html', title='New Post', form=form, legend="New Post")
 
