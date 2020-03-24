@@ -13,6 +13,16 @@ def feed():
     return render_template('feed.html', posts=postAndCommentModel.getMostRecentPosts(20))
 
 
+@app.route("/comment/nested/<int:post_id>/<int:parent_comment_id>", methods=['GET', 'POST'])
+def comment_on_comment(post_id, parent_comment_id):
+    form = CommentForm()
+    if form.validate_on_submit():
+        postAndCommentModel.commentOnComment(post_id, parent_comment_id, current_user.id, form.content.data)
+        flash('Comment posted!')
+        return redirect(url_for('post', post_id=post_id))
+    return render_template('write_comment.html', title='New Comment', form=form, legend="New Comment")
+
+
 @app.route("/post/comment/<int:post_id>", methods=['GET', 'POST'])
 def comment_on_post(post_id):
     form = CommentForm()
@@ -35,7 +45,6 @@ def write_post():
 
 @app.route("/post/<int:post_id>")
 def post(post_id):
-    print(post_id)
     # get post from microservice and display it along with its comments and ability to comment more
     post = postAndCommentModel.getPost(post_id)
     comments = postAndCommentModel.getCommentsForPost(post_id)

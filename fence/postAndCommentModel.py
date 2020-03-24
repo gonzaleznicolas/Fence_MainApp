@@ -49,11 +49,14 @@ fake_comments_db = {
 	]
 }
 
-def commentOnPost(post_id, author_id, content):
+def commentOnComment(post_id, parent_comment_id, author_id, content):
+	print(f"{post_id} {parent_comment_id} {author_id} {content}")
+
+	# create the comment dictionary
 	comment_id = uuid.uuid1().int
 	time = datetime.now()
 
-	comment = {
+	new_comment = {
 		"comment_id": comment_id,
 		"author_id": author_id,
 		"time": time,
@@ -61,7 +64,32 @@ def commentOnPost(post_id, author_id, content):
 		"comments": []
 	}
 
-	fake_comments_db[post_id].append(comment)
+	# find the post's comment array
+	comment_array0 = fake_comments_db[post_id]
+
+	# find the parent comment
+	parent_comment = {}
+	for comment0 in comment_array0:
+		if comment0['comment_id'] == parent_comment_id:
+			parent_comment = comment0
+
+	parent_comment['comments'].append(new_comment)
+
+
+def commentOnPost(post_id, author_id, content):
+	comment_id = uuid.uuid1().int
+	time = datetime.now()
+
+	new_comment = {
+		"comment_id": comment_id,
+		"author_id": author_id,
+		"time": time,
+		"content": content,
+		"comments": []
+	}
+
+	post_comment_array = fake_comments_db[post_id]
+	post_comment_array.append(new_comment)
 
 
 # expected to store the post with the passed in title, content, and author_id
