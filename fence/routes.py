@@ -50,7 +50,7 @@ def register():
     if registrationForm.validate_on_submit():  # WTForms will ensure all validators pass, otherwise will show error message
         hashed_password = bcrypt.generate_password_hash(registrationForm.password.data).decode('utf-8')
         # store new user in the DB
-        user = User(username=registrationForm.username.data, email=registrationForm.email.data,
+        user = User(username=registrationForm.username.data,
                     password=hashed_password)  # store hashed verion of password
         db.session.add(user)
         db.session.commit()
@@ -66,14 +66,14 @@ def login():
         return redirect(url_for('feed'))  # if user logged in already, take them to feed screen
     loginForm = LoginForm()
     if loginForm.validate_on_submit():  # WTForms will ensure all validators pass, otherwise will show error message
-        user = User.query.filter_by(email=loginForm.email.data).first()
+        user = User.query.filter_by(username=loginForm.username.data).first()
         if user and bcrypt.check_password_hash(user.password, loginForm.password.data):
             login_user(user)  # tell the flask_login to log in the user
             # if user had tried to go to a page that is only allowed when you're logged in, redirect them there after they log in
             next_page = request.args.get('next')
             return redirect(next_page) if next_page else redirect(url_for('feed'))
         else:
-            flash('Login Unsuccessful. Please check email and password')
+            flash('Login Unsuccessful. Please check username and password')
     return render_template('login.html', title='Login', form=loginForm)
 
 
@@ -89,11 +89,9 @@ def account():
     accountForm = UpdateAccountForm()
     if accountForm.validate_on_submit():
         current_user.username = accountForm.username.data
-        current_user.email = accountForm.email.data
         db.session.commit()
         flash('Your account has been updated!')
         return redirect(url_for('account'))
-    elif request.method == 'GET':  # prepopulate the fields with current username and email
+    elif request.method == 'GET':  # prepopulate the fields with current username
         accountForm.username.data = current_user.username
-        accountForm.email.data = current_user.email
     return render_template('account.html', title='Account', form=accountForm)

@@ -102,6 +102,5 @@ def getCommentsForPost(post_id):
 			for comment2 in comment1["comments"]:
 				comment2["author"] = User.query.filter_by(id=comment2['author_id']).first().username
 
-
 	return comments
 
