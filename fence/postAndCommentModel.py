@@ -124,6 +124,7 @@ def newPost(title, content, author_id):
 	fake_posts_db[post_id] = {"id": post_id, "author_id": author_id, "time": time, "title": title, "content": content}
 	fake_comments_db[post_id] = []
 
+
 # input: integer (id of post to get)
 # expected output: dictionary with the following format
 # {
