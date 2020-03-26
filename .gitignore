@@ -1,6 +1,14 @@
 venv/
+virt/
 .vscode/
 .git/
 fence/__pycache__
 __pycache__
 fence/site.db
+
+
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

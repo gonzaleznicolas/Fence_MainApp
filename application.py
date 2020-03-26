@@ -1,4 +1,5 @@
-from fence import app
+from fence import app as application
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.debug = True
+    application.run()
