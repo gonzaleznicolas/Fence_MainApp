@@ -1,8 +1,6 @@
 venv/
-
 .vscode/
 .git/
-
 fence/__pycache__
-
+__pycache__
 fence/site.db
