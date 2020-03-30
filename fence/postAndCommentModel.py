@@ -5,53 +5,55 @@ from fence.userModel import User
 
 # SOME FAKE DATA STRUCTURES TO HOLD POSTS AND COMMENTS.
 # NEED TO BE REPLACED WITH INTERACTION WITH THE MICROSERVICE
-fake_posts_db = { 
-	12345: 
-	{
-		"id": 12345,
-		"author_id": 1,
-		"time": datetime.now(),
-		"title": "This is a test title",
-		"content": "What should I make the content of this post?"
-	}
-}
+fake_posts_db = {}
+#{ 
+#	12345: 
+#	{
+#		"id": 12345,
+#		"author_id": 1,
+#		"time": datetime.now(),
+#		"title": "This is a test title",
+#		"content": "What should I make the content of this post?"
+#	}
+#}
 
-fake_comments_db = {
-	12345: [
-		{
-			"comment_id": 111,
-			"author_id": 1,
-			"time": datetime.now(),
-			"content": "I dont like your post...",
-			"comments":
-			[
-				{
-					"comment_id": 2222,
-					"author_id": 1,
-					"time": datetime.now(),
-					"content": "I think its great",
-					"comments":
-					[
-						{
-							"comment_id": 444,
-							"author_id": 1,
-							"time": datetime.now(),
-							"content": "Thank you :)",
-							"comments": []
-						},
-					]
-				},
-				{
-					"comment_id": 3333,
-					"author_id": 1,
-					"time": datetime.now(),
-					"content": "Why do you guys care??",
-					"comments": []
-				},
-			]
-		}
-	]
-}
+fake_comments_db = {}
+#{
+#	12345: [
+#		{
+#			"comment_id": 111,
+#			"author_id": 1,
+#			"time": datetime.now(),
+#			"content": "I dont like your post...",
+#			"comments":
+#			[
+#				{
+#					"comment_id": 2222,
+#					"author_id": 1,
+#					"time": datetime.now(),
+#					"content": "I think its great",
+#					"comments":
+#					[
+#						{
+#							"comment_id": 444,
+#							"author_id": 1,
+#							"time": datetime.now(),
+#							"content": "Thank you :)",
+#							"comments": []
+#						},
+#					]
+#				},
+#				{
+#					"comment_id": 3333,
+#					"author_id": 1,
+#					"time": datetime.now(),
+#					"content": "Why do you guys care??",
+#					"comments": []
+#				},
+#			]
+#		}
+#	]
+#}
 
 
 # preconditions:
