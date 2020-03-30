@@ -138,7 +138,7 @@ def getPost(post_id):
 	post = fake_posts_db[post_id] # replace this with getting post from microservice
 
 	# load username
-#	post['author'] = User.query.filter_by(id=post['author_id']).first().username
+	post['author'] = User.query.filter_by(id=post['author_id']).first().username
 	return post
 	
 
@@ -159,7 +159,7 @@ def getMostRecentPosts(numberOfPosts):
 	for post_id in posts:
 		post = posts[post_id]
 		# load username
-#		post['author'] = User.query.filter_by(id=post['author_id']).first().username
+		post['author'] = User.query.filter_by(id=post['author_id']).first().username
 
 	print(fake_posts_db)
 	return posts.values()
@@ -205,12 +205,12 @@ def getCommentsForPost(post_id):
 	comments = fake_comments_db.get(post_id, []) # replace this with a call to the microservice to get comments array
 
 	# set author for 3 levels of nested comments
-#	for comment0 in comments:
-#		comment0["author"] = User.query.filter_by(id=comment0['author_id']).first().username
-#		for comment1 in comment0["comments"]:
-#			comment1["author"] = User.query.filter_by(id=comment1['author_id']).first().username
-#			for comment2 in comment1["comments"]:
-#				comment2["author"] = User.query.filter_by(id=comment2['author_id']).first().username
+	for comment0 in comments:
+		comment0["author"] = User.query.filter_by(id=comment0['author_id']).first().username
+		for comment1 in comment0["comments"]:
+			comment1["author"] = User.query.filter_by(id=comment1['author_id']).first().username
+			for comment2 in comment1["comments"]:
+				comment2["author"] = User.query.filter_by(id=comment2['author_id']).first().username
 
 	return comments
 
