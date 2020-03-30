@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime
 from fence import db
 from fence.userModel import User
+from fence.eventModel import Event
 
 # SOME FAKE DATA STRUCTURES TO HOLD POSTS AND COMMENTS.
 # NEED TO BE REPLACED WITH INTERACTION WITH THE MICROSERVICE
@@ -119,6 +120,10 @@ def commentOnPost(post_id, author_id, content):
 def newPost(title, content, author_id):
 	post_id = uuid.uuid1().int
 	time = datetime.now()
+
+	event = Event(event_name='new_post', title=title, content=content, author_id=author_id, time=time)
+	db.session.add(event)
+	db.session.commit()
 
 	# replace this with writing an event to the event database
 	fake_posts_db[post_id] = {"id": post_id, "author_id": author_id, "time": time, "title": title, "content": content}

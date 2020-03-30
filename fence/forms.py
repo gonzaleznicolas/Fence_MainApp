@@ -41,7 +41,7 @@ class UpdateAccountForm(FlaskForm):
                 raise ValidationError('That username is taken. Please choose a different one.')
 
 class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired(), Length(min=1, max=20)])
+    title = StringField('Title', validators=[DataRequired(), Length(min=1, max=150)])
     content = TextAreaField('Content', validators=[DataRequired(), Length(min=1, max=3000)])
     submit = SubmitField('Post')
 
