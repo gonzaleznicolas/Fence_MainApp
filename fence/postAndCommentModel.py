@@ -62,7 +62,6 @@ fake_comments_db = {
 # postcondition:
 #	- the comment has been persisted
 def commentOnComment(post_id, parent_comment_id, author_id, content):
-	print(f"{post_id} {parent_comment_id} {author_id} {content}")
 
 	# create the comment dictionary
 	comment_id = uuid.uuid1().int
@@ -90,6 +89,17 @@ def commentOnComment(post_id, parent_comment_id, author_id, content):
 				parent_comment = comment1
 
 	parent_comment['comments'].append(new_comment)
+
+	new_comment['parent_comment_id'] = parent_comment['comment_id']
+
+	event = Event(event_name='comment_on_comment',
+				  post_id=post_id,
+				  parent_comment_id=new_comment['parent_comment_id'],
+				  author_id=author_id,
+				  content=content,
+				  time=time)
+	db.session.add(event)
+	db.session.commit()
 
 
 # preconditions:
@@ -121,11 +131,12 @@ def newPost(title, content, author_id):
 	post_id = uuid.uuid1().int
 	time = datetime.now()
 
+	# write new event to the event table
 	event = Event(event_name='new_post', title=title, content=content, author_id=author_id, time=time)
 	db.session.add(event)
 	db.session.commit()
 
-	# replace this with writing an event to the event database
+	# for the temporary data structures
 	fake_posts_db[post_id] = {"id": post_id, "author_id": author_id, "time": time, "title": title, "content": content}
 	fake_comments_db[post_id] = []
 
