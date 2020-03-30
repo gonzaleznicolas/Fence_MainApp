@@ -121,6 +121,14 @@ def commentOnPost(post_id, author_id, content):
 
 	fake_comments_db[post_id].append(new_comment)
 
+	event = Event(event_name='comment_on_post',
+				  post_id=post_id,
+				  author_id=author_id,
+				  content=content,
+				  time=time)
+	db.session.add(event)
+	db.session.commit()
+
 
 # preconditions:
 #	- author_id indeed corresponds to a user in the db
