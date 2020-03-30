@@ -5,55 +5,53 @@ from fence.userModel import User
 
 # SOME FAKE DATA STRUCTURES TO HOLD POSTS AND COMMENTS.
 # NEED TO BE REPLACED WITH INTERACTION WITH THE MICROSERVICE
-fake_posts_db = {}
-#{ 
-#	12345: 
-#	{
-#		"id": 12345,
-#		"author_id": 1,
-#		"time": datetime.now(),
-#		"title": "This is a test title",
-#		"content": "What should I make the content of this post?"
-#	}
-#}
+fake_posts_db = { 
+	12345: 
+	{
+		"id": 12345,
+		"author_id": 1,
+		"time": datetime.now(),
+		"title": "This is a test title",
+		"content": "What should I make the content of this post?"
+	}
+}
 
-fake_comments_db = {}
-#{
-#	12345: [
-#		{
-#			"comment_id": 111,
-#			"author_id": 1,
-#			"time": datetime.now(),
-#			"content": "I dont like your post...",
-#			"comments":
-#			[
-#				{
-#					"comment_id": 2222,
-#					"author_id": 1,
-#					"time": datetime.now(),
-#					"content": "I think its great",
-#					"comments":
-#					[
-#						{
-#							"comment_id": 444,
-#							"author_id": 1,
-#							"time": datetime.now(),
-#							"content": "Thank you :)",
-#							"comments": []
-#						},
-#					]
-#				},
-#				{
-#					"comment_id": 3333,
-#					"author_id": 1,
-#					"time": datetime.now(),
-#					"content": "Why do you guys care??",
-#					"comments": []
-#				},
-#			]
-#		}
-#	]
-#}
+fake_comments_db = {
+	12345: [
+		{
+			"comment_id": 111,
+			"author_id": 1,
+			"time": datetime.now(),
+			"content": "I dont like your post...",
+			"comments":
+			[
+				{
+					"comment_id": 2222,
+					"author_id": 1,
+					"time": datetime.now(),
+					"content": "I think its great",
+					"comments":
+					[
+						{
+							"comment_id": 444,
+							"author_id": 1,
+							"time": datetime.now(),
+							"content": "Thank you :)",
+							"comments": []
+						},
+					]
+				},
+				{
+					"comment_id": 3333,
+					"author_id": 1,
+					"time": datetime.now(),
+					"content": "Why do you guys care??",
+					"comments": []
+				},
+			]
+		}
+	]
+}
 
 
 # preconditions:
@@ -140,7 +138,8 @@ def getPost(post_id):
 	post = fake_posts_db[post_id] # replace this with getting post from microservice
 
 	# load username
-	post['author'] = User.query.filter_by(id=post['author_id']).first().username
+	usr = User.query.filter_by(id=post['author_id']).first()
+	post['author'] = usr.username if usr is not None else None
 	return post
 	
 
@@ -161,7 +160,8 @@ def getMostRecentPosts(numberOfPosts):
 	for post_id in posts:
 		post = posts[post_id]
 		# load username
-		post['author'] = User.query.filter_by(id=post['author_id']).first().username
+		usr = User.query.filter_by(id=post['author_id']).first()
+		post['author'] = usr.username if usr is not None else None
 
 	print(fake_posts_db)
 	return posts.values()
@@ -208,11 +208,14 @@ def getCommentsForPost(post_id):
 
 	# set author for 3 levels of nested comments
 	for comment0 in comments:
-		comment0["author"] = User.query.filter_by(id=comment0['author_id']).first().username
+		usr = User.query.filter_by(id=comment0['author_id']).first()
+		comment0['author'] = usr.username if usr is not None else None
 		for comment1 in comment0["comments"]:
-			comment1["author"] = User.query.filter_by(id=comment1['author_id']).first().username
+			usr = User.query.filter_by(id=comment1['author_id']).first()
+			comment1['author'] = usr.username if usr is not None else None
 			for comment2 in comment1["comments"]:
-				comment2["author"] = User.query.filter_by(id=comment2['author_id']).first().username
+				usr = User.query.filter_by(id=comment2['author_id']).first()
+				comment2['author'] = usr.username if usr is not None else None
 
 	return comments
 
