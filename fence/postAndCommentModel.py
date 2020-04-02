@@ -7,12 +7,7 @@ from fence.eventModel import Event
 
 microserviceURL = "http://microservice-env.eba-m8eyw6ia.us-west-2.elasticbeanstalk.com/"
 
-# preconditions:
-#	- the passed in id's correspond to real data
-#	- the content is a valid string for a comment
-#	- the parent_comment_id is not at the third level of nesting
-# postcondition:
-#	- the comment has been persisted
+
 def commentOnComment(post_id, parent_comment_id, author_id, content):
 
 	# create the comment dictionary
@@ -55,11 +50,6 @@ def commentOnComment(post_id, parent_comment_id, author_id, content):
 	db.session.commit()
 
 
-# preconditions:
-#	- the passed in id's correspond to real data
-#	- the content is a valid string for a comment
-# postcondition:
-#	- the comment has been persisted
 def commentOnPost(post_id, author_id, content):
 	comment_id = uuid.uuid1().int
 	time = datetime.now()
@@ -81,11 +71,6 @@ def commentOnPost(post_id, author_id, content):
 	db.session.commit()
 
 
-# preconditions:
-#	- author_id indeed corresponds to a user in the db
-#	- title and content are valid strings
-# postcondition:
-#	- the post has been persisted
 def newPost(title, content, author_id):
 	post_id = uuid.uuid1().int
 	time = datetime.now()
@@ -96,15 +81,6 @@ def newPost(title, content, author_id):
 	db.session.commit()
 
 
-# input: integer (id of post to get)
-# expected output: dictionary with the following format
-# {
-# 	"id": <int>
-# 	"author_id": <int>
-#	"time": <datetime>
-# 	"title": <string>
-# 	"content": <string>
-# }
 def getPost(post_id):
 	response = requests.get(f"{microserviceURL}/post/get/{post_id}")
 	post = response.json()
@@ -113,18 +89,8 @@ def getPost(post_id):
 	usr = User.query.filter_by(id=post['author_id']).first()
 	post['author'] = usr.username if usr is not None else None
 	return post
-	
 
-# input: integer (number of posts to get)
-# expected output: an array of post dictionaries, of at most size numberOfPosts
-#	each post in the array should have the format:
-#	{
-#		"id": <int>
-#		"author_id": <int>
-#		"time": <datetime>
-#		"title": <string>
-#		"content": <string>
-#	}
+
 def getMostRecentPosts(numberOfPosts):
 	response = requests.get(f"{microserviceURL}/post/get/most_recent/{numberOfPosts}")
 	posts = response.json()
@@ -137,42 +103,18 @@ def getMostRecentPosts(numberOfPosts):
 	return posts
 
 
-# input: id of a post
-# output: an array of comments in the following format (maximum 3 levels of nested comments):
-#[
-#	{
-#		"comment_id": <int>,
-#		"author_id": <int>,
-#		"time": <datetime>,
-#		"content": <string>,
-#		"comments":
-#		[
-#			{
-#				"comment_id": <int>,
-#				"author_id": <int>,
-#				"time": <datetime>,
-#				"content": "<string>",
-#				"comments":
-#				[
-#					{
-#						"comment_id": <int>,
-#						"author_id": <int>,
-#						"time": <datetime>,
-#						"content": <string>,
-#						"comments": []
-#					},
-#				]
-#			},
-#			{
-#				"comment_id": <int>,
-#				"author_id": <int>,
-#				"time": <datetime>,
-#				"content": <string>,
-#				"comments": []
-#			},
-#		]
-#	}
-#]
+def getAllPosts():
+	response = requests.get(f"{microserviceURL}/post/get/all")
+	posts = response.json()
+	# load the username for each post in posts
+	for post in posts:
+		# load username
+		usr = User.query.filter_by(id=post['author_id']).first()
+		post['author'] = usr.username if usr is not None else None
+
+	return posts
+
+
 def getCommentsForPost(post_id):
 	response = requests.get(f"{microserviceURL}/comments/get/{post_id}")
 	comments = response.json()

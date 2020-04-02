@@ -10,7 +10,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/feed")
 def feed():
-    return render_template('feed.html', posts=postAndCommentModel.getMostRecentPosts(100))
+    return render_template('feed.html', posts=postAndCommentModel.getAllPosts())
 
 
 @app.route("/comment/nested/<int:post_id>/<int:parent_comment_id>", methods=['GET', 'POST'])
