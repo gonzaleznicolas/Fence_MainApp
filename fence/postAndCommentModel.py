@@ -9,43 +9,12 @@ microserviceURL = "http://microservice-env.eba-m8eyw6ia.us-west-2.elasticbeansta
 
 
 def commentOnComment(post_id, parent_comment_id, author_id, content):
-
-	# create the comment dictionary
-	comment_id = uuid.uuid1().int
-	time = datetime.now()
-
-	new_comment = {
-		"comment_id": comment_id,
-		"author_id": author_id,
-		"time": time,
-		"content": content,
-		"comments": []
-	}
-
-	# find the post's comment array
-	response = requests.get(f"{microserviceURL}/comments/get/{post_id}")
-	comment_array0 = response.json()
-
-	# find the parent comment
-	parent_comment = {}
-	for comment0 in comment_array0:
-		if comment0['id'] == parent_comment_id:
-			parent_comment = comment0
-		comments_array1 = comment0['comments']
-		for comment1 in comments_array1:
-			if comment1['id'] == parent_comment_id:
-				parent_comment = comment1
-
-	parent_comment['comments'].append(new_comment)
-
-	new_comment['parent_comment_id'] = parent_comment['id']
-
 	event = Event(event_name='comment_on_comment',
 				  post_id=post_id,
-				  parent_comment_id=new_comment['parent_comment_id'],
+				  parent_comment_id=parent_comment_id,
 				  author_id=author_id,
 				  content=content,
-				  time=time)
+				  time=datetime.now())
 	db.session.add(event)
 	db.session.commit()
 
