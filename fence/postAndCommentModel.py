@@ -28,21 +28,22 @@ def commentOnComment(post_id, parent_comment_id, author_id, content):
 	}
 
 	# find the post's comment array
-	comment_array0 = fake_comments_db[post_id]
+	response = requests.get(f"{microserviceURL}/comments/get/{post_id}")
+	comment_array0 = response.json()
 
 	# find the parent comment
 	parent_comment = {}
 	for comment0 in comment_array0:
-		if comment0['comment_id'] == parent_comment_id:
+		if comment0['id'] == parent_comment_id:
 			parent_comment = comment0
 		comments_array1 = comment0['comments']
 		for comment1 in comments_array1:
-			if comment1['comment_id'] == parent_comment_id:
+			if comment1['id'] == parent_comment_id:
 				parent_comment = comment1
 
 	parent_comment['comments'].append(new_comment)
 
-	new_comment['parent_comment_id'] = parent_comment['comment_id']
+	new_comment['parent_comment_id'] = parent_comment['id']
 
 	event = Event(event_name='comment_on_comment',
 				  post_id=post_id,
@@ -173,7 +174,8 @@ def getMostRecentPosts(numberOfPosts):
 #	}
 #]
 def getCommentsForPost(post_id):
-	comments = fake_comments_db.get(post_id, []) # replace this with a call to the microservice to get comments array
+	response = requests.get(f"{microserviceURL}/comments/get/{post_id}")
+	comments = response.json()
 
 	# set author for 3 levels of nested comments
 	for comment0 in comments:

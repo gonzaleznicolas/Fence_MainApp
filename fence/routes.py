@@ -10,7 +10,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/feed")
 def feed():
-    return render_template('feed.html', posts=postAndCommentModel.getMostRecentPosts(20))
+    return render_template('feed.html', posts=postAndCommentModel.getMostRecentPosts(100))
 
 
 @app.route("/comment/nested/<int:post_id>/<int:parent_comment_id>", methods=['GET', 'POST'])
@@ -47,7 +47,7 @@ def write_post():
 def post(post_id):
     # get post from microservice and display it along with its comments and ability to comment more
     post = postAndCommentModel.getPost(post_id)
-    comments = [] #postAndCommentModel.getCommentsForPost(post_id)
+    comments = postAndCommentModel.getCommentsForPost(post_id)
     return render_template('post.html', post=post, comments=comments)
 
 
