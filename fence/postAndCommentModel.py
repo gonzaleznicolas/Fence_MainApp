@@ -5,7 +5,7 @@ from fence import db
 from fence.userModel import User
 from fence.eventModel import Event
 
-microserviceURL = "http://microservice-env.eba-m8eyw6ia.us-west-2.elasticbeanstalk.comf/"
+microserviceURL = "http://microservice-env.eba-m8eyw6ia.us-west-2.elasticbeanstalk.com/"
 
 
 def commentOnComment(post_id, parent_comment_id, author_id, content):
