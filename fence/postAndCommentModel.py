@@ -10,7 +10,7 @@ microserviceURL = "http://microservice-env.eba-m8eyw6ia.us-west-2.elasticbeansta
 
 # returns posts whose content or title have the search_string as a substring
 def search(search_string):
-	response = requests.get(f"{microserviceURL}/post/get/most_recent/3")
+	response = requests.get(f"{microserviceURL}/post/search/{search_string}")
 	if response.status_code != 200:
 		raise Exception("Microservice Unavailable.")
 	posts = response.json()
