@@ -47,7 +47,7 @@ def write_post():
 def post(post_id):
     # get post from microservice and display it along with its comments and ability to comment more
     post = postAndCommentModel.getPost(post_id)
-    comments = postAndCommentModel.getCommentsForPost(post_id)
+    comments = [] #postAndCommentModel.getCommentsForPost(post_id)
     return render_template('post.html', post=post, comments=comments)
 
 

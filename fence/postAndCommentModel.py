@@ -105,7 +105,8 @@ def newPost(title, content, author_id):
 # 	"content": <string>
 # }
 def getPost(post_id):
-	post = {}
+	response = requests.get(f"{microserviceURL}/post/get/{post_id}")
+	post = response.json()
 
 	# load username
 	usr = User.query.filter_by(id=post['author_id']).first()
