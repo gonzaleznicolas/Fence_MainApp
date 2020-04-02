@@ -71,8 +71,6 @@ def commentOnPost(post_id, author_id, content):
 		"comments": []
 	}
 
-	fake_comments_db[post_id].append(new_comment)
-
 	event = Event(event_name='comment_on_post',
 				  post_id=post_id,
 				  author_id=author_id,
@@ -96,10 +94,6 @@ def newPost(title, content, author_id):
 	db.session.add(event)
 	db.session.commit()
 
-	# for the temporary data structures
-	fake_posts_db[post_id] = {"id": post_id, "author_id": author_id, "time": time, "title": title, "content": content}
-	fake_comments_db[post_id] = []
-
 
 # input: integer (id of post to get)
 # expected output: dictionary with the following format
@@ -111,7 +105,7 @@ def newPost(title, content, author_id):
 # 	"content": <string>
 # }
 def getPost(post_id):
-	post = fake_posts_db[post_id] # replace this with getting post from microservice
+	post = {}
 
 	# load username
 	usr = User.query.filter_by(id=post['author_id']).first()
