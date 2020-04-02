@@ -26,6 +26,7 @@
           <div class="collapse navbar-collapse" id="main-navigation">
             <div class="navbar-nav">
               <a class="nav-item nav-link" href="{{ url_for('feed') }}">Feed</a>
+              <a class="nav-item nav-link" href="{{ url_for('write_search_query') }}">Search Posts</a>
               {% if current_user.is_authenticated %}
                   <a class="nav-item nav-link" href="{{ url_for('write_post') }}">New Post</a>
                   <a class="nav-item nav-link" href="{{ url_for('account') }}">Account</a>

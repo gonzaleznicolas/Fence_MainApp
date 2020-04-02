@@ -3,7 +3,7 @@ import secrets
 import fence.postAndCommentModel as postAndCommentModel
 from flask import render_template, url_for, flash, redirect, request
 from fence import app, db, bcrypt
-from fence.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, CommentForm
+from fence.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, CommentForm, SearchForm
 from fence.userModel import User
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -23,7 +23,7 @@ def comment_on_comment(post_id, parent_comment_id):
         postAndCommentModel.commentOnComment(post_id, parent_comment_id, current_user.id, form.content.data)
         flash('Comment posted!')
         return redirect(url_for('post', post_id=post_id))
-    return render_template('write_comment.html', title='New Comment', form=form, legend="New Comment")
+    return render_template('write_comment.html', form=form, legend="New Comment")
 
 
 @app.route("/post/comment/<int:post_id>", methods=['GET', 'POST'])
@@ -33,7 +33,7 @@ def comment_on_post(post_id):
         postAndCommentModel.commentOnPost(post_id, current_user.id, form.content.data)
         flash('Comment posted!')
         return redirect(url_for('post', post_id=post_id))
-    return render_template('write_comment.html', title='New Comment', form=form, legend="New Comment")
+    return render_template('write_comment.html', form=form, legend="New Comment")
 
 
 @app.route("/post/write", methods=['GET', 'POST'])
@@ -43,8 +43,15 @@ def write_post():
         postAndCommentModel.newPost(form.title.data, form.content.data, current_user.id)
         flash('Posted!')
         return redirect(url_for('feed'))
-    return render_template('write_post.html', title='New Post', form=form, legend="New Post")
+    return render_template('write_post.html', form=form, legend="New Post")
 
+@app.route("/search/write", methods=['GET', 'POST'])
+def write_search_query():
+    form = SearchForm()
+    if form.validate_on_submit():
+        #postAndCommentModel.search(form.content.search_string)
+        return redirect(url_for('feed'))
+    return render_template('write_search.html', form=form, legend="Search")
 
 @app.route("/post/<int:post_id>")
 def post(post_id):
@@ -72,7 +79,7 @@ def register():
         # whatever you flash will be displayed by the base template
         flash('Your account has been created. Please log in.')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=registrationForm)
+    return render_template('register.html', form=registrationForm)
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -89,7 +96,7 @@ def login():
             return redirect(next_page) if next_page else redirect(url_for('feed'))
         else:
             flash('Login Unsuccessful. Please check username and password')
-    return render_template('login.html', title='Login', form=loginForm)
+    return render_template('login.html', form=loginForm)
 
 
 @app.route("/logout")
@@ -109,4 +116,4 @@ def account():
         return redirect(url_for('account'))
     elif request.method == 'GET':  # prepopulate the fields with current username
         accountForm.username.data = current_user.username
-    return render_template('account.html', title='Account', form=accountForm)
+    return render_template('account.html', form=accountForm)
