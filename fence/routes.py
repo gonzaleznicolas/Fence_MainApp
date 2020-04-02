@@ -10,8 +10,11 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route("/")
 @app.route("/feed")
 def feed():
-    return render_template('feed.html', posts=postAndCommentModel.getAllPosts())
-
+    try:
+        posts = postAndCommentModel.getAllPosts()
+        return render_template('feed.html', posts=posts)
+    except Exception as exc:
+        return render_template('microservice_unavailable.html')
 
 @app.route("/comment/nested/<int:post_id>/<int:parent_comment_id>", methods=['GET', 'POST'])
 def comment_on_comment(post_id, parent_comment_id):

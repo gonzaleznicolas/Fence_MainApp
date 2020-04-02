@@ -5,7 +5,7 @@ from fence import db
 from fence.userModel import User
 from fence.eventModel import Event
 
-microserviceURL = "http://microservice-env.eba-m8eyw6ia.us-west-2.elasticbeanstalk.com/"
+microserviceURL = "http://microservice-env.eba-m8eyw6ia.us-west-2.elasticbeanstalk.comf/"
 
 
 def commentOnComment(post_id, parent_comment_id, author_id, content):
@@ -64,6 +64,8 @@ def getMostRecentPosts(numberOfPosts):
 
 def getAllPosts():
 	response = requests.get(f"{microserviceURL}/post/get/all")
+	if response.status_code != 200:
+		raise Exception("Microservice Unavailable.")
 	posts = response.json()
 	# load the username for each post in posts
 	for post in posts:
