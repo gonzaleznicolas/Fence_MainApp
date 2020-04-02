@@ -2,7 +2,7 @@
 {% block content %}
 <div class="post">
 	<h4>{{ post.title }}</h4>
-	<small>{{post.author}} &nbsp @ &nbsp {{post.time.strftime("%m/%d/%Y, %H:%M:%S")}}</small>
+	<small>{{post.author}} &nbsp @ &nbsp {{post.time}}</small>
 	<div style="clear: both; display: block;"></div>
 	<div style="float: left">{{ post.content }}</div>
 	{% if current_user.is_authenticated %}
@@ -12,7 +12,7 @@
 </div>
 {% for comment0 in comments %}
 	<div class="comment">
-        <small>{{comment0.author}} &nbsp @ &nbsp {{comment0.time.strftime("%m/%d/%Y, %H:%M:%S")}}</small>
+        <small>{{comment0.author}} &nbsp @ &nbsp {{comment0.time}}</small>
 		<div style="clear: both; display: block;"></div>
 		<div style="float: left">{{ comment0.content }}</div>
 		{% if current_user.is_authenticated %}
@@ -22,7 +22,7 @@
 	</div>
 	{% for comment1 in comment0.comments %}
 		<div class="comment" style="margin-left: 40px">
-			<small>{{comment1.author}} &nbsp @ &nbsp {{comment1.time.strftime("%m/%d/%Y, %H:%M:%S")}}</small>
+			<small>{{comment1.author}} &nbsp @ &nbsp {{comment1.time}}</small>
 			<div style="clear: both; display: block;"></div>
 			<div style="float: left">{{ comment1.content }}</div>
 			{% if current_user.is_authenticated %}
@@ -32,7 +32,7 @@
 		</div>
 		{% for comment2 in comment1.comments %}
 			<div class="comment" style="margin-left: 80px">
-				<small>{{comment2.author}} &nbsp @ &nbsp {{comment2.time.strftime("%m/%d/%Y, %H:%M:%S")}}</small>
+				<small>{{comment2.author}} &nbsp @ &nbsp {{comment2.time}}</small>
 				<div>{{ comment2.content }}</div>
 			</div>
 		{% endfor %}

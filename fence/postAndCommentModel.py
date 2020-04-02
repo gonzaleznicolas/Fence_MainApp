@@ -1,59 +1,11 @@
 import uuid
+import requests
 from datetime import datetime
 from fence import db
 from fence.userModel import User
 from fence.eventModel import Event
 
-# SOME FAKE DATA STRUCTURES TO HOLD POSTS AND COMMENTS.
-# NEED TO BE REPLACED WITH INTERACTION WITH THE MICROSERVICE
-fake_posts_db = { 
-	12345: 
-	{
-		"id": 12345,
-		"author_id": 1,
-		"time": datetime.now(),
-		"title": "This is a test title",
-		"content": "What should I make the content of this post?"
-	}
-}
-
-fake_comments_db = {
-	12345: [
-		{
-			"comment_id": 111,
-			"author_id": 1,
-			"time": datetime.now(),
-			"content": "I dont like your post...",
-			"comments":
-			[
-				{
-					"comment_id": 2222,
-					"author_id": 1,
-					"time": datetime.now(),
-					"content": "I think its great",
-					"comments":
-					[
-						{
-							"comment_id": 444,
-							"author_id": 1,
-							"time": datetime.now(),
-							"content": "Thank you :)",
-							"comments": []
-						},
-					]
-				},
-				{
-					"comment_id": 3333,
-					"author_id": 1,
-					"time": datetime.now(),
-					"content": "Why do you guys care??",
-					"comments": []
-				},
-			]
-		}
-	]
-}
-
+microserviceURL = "http://microservice-env.eba-m8eyw6ia.us-west-2.elasticbeanstalk.com/"
 
 # preconditions:
 #	- the passed in id's correspond to real data
@@ -178,17 +130,15 @@ def getPost(post_id):
 #		"content": <string>
 #	}
 def getMostRecentPosts(numberOfPosts):
-	posts = fake_posts_db # replace this with getting post from microservice
-
+	response = requests.get(f"{microserviceURL}/post/get/most_recent/{numberOfPosts}")
+	posts = response.json()
 	# load the username for each post in posts
-	for post_id in posts:
-		post = posts[post_id]
+	for post in posts:
 		# load username
 		usr = User.query.filter_by(id=post['author_id']).first()
 		post['author'] = usr.username if usr is not None else None
 
-	print(fake_posts_db)
-	return posts.values()
+	return posts
 
 
 # input: id of a post
