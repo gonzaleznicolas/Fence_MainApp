@@ -45,14 +45,6 @@ def write_post():
         return redirect(url_for('feed'))
     return render_template('write_post.html', form=form, legend="New Post")
 
-@app.route("/search/write", methods=['GET', 'POST'])
-def write_search_query():
-    form = SearchForm()
-    if form.validate_on_submit():
-        #postAndCommentModel.search(form.content.search_string)
-        return redirect(url_for('feed'))
-    return render_template('write_search.html', form=form, legend="Search")
-
 @app.route("/post/<int:post_id>")
 def post(post_id):
     try:
@@ -63,6 +55,16 @@ def post(post_id):
     except Exception as exc:
         return render_template('microservice_unavailable.html')
 
+@app.route("/search/write", methods=['GET', 'POST'])
+def write_search_query():
+    form = SearchForm()
+    if form.validate_on_submit():
+        try:
+            posts_matching_search = postAndCommentModel.search(form.search_string.data)
+            return render_template('feed.html', posts=posts_matching_search)
+        except Exception as exc:
+            return render_template('microservice_unavailable.html')
+    return render_template('write_search.html', form=form, legend="Search")
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():

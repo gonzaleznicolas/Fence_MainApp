@@ -8,6 +8,23 @@ from fence.eventModel import Event
 microserviceURL = "http://microservice-env.eba-m8eyw6ia.us-west-2.elasticbeanstalk.com/"
 
 
+# returns posts whose content or title have the search_string as a substring
+def search(search_string):
+	response = requests.get(f"{microserviceURL}/post/get/most_recent/3")
+	if response.status_code != 200:
+		raise Exception("Microservice Unavailable.")
+	posts = response.json()
+	# load the username for each post in posts
+	for post in posts:
+		# turn date string to python datetime
+		post['time'] = datetime.strptime(post['time'], '%Y-%m-%dT%H:%M:%S.%fZ')
+		# load username
+		usr = User.query.filter_by(id=post['author_id']).first()
+		post['author'] = usr.username if usr is not None else None
+
+	return posts
+
+
 def commentOnComment(post_id, parent_comment_id, author_id, content):
 	event = Event(event_name='comment_on_comment',
 				  post_id=post_id,
@@ -50,6 +67,8 @@ def getPost(post_id):
 
 def getMostRecentPosts(numberOfPosts):
 	response = requests.get(f"{microserviceURL}/post/get/most_recent/{numberOfPosts}")
+	if response.status_code != 200:
+		raise Exception("Microservice Unavailable.")
 	posts = response.json()
 	# load the username for each post in posts
 	for post in posts:
