@@ -20,32 +20,18 @@ def commentOnComment(post_id, parent_comment_id, author_id, content):
 
 
 def commentOnPost(post_id, author_id, content):
-	comment_id = uuid.uuid1().int
-	time = datetime.now()
-
-	new_comment = {
-		"comment_id": comment_id,
-		"author_id": author_id,
-		"time": time,
-		"content": content,
-		"comments": []
-	}
-
 	event = Event(event_name='comment_on_post',
 				  post_id=post_id,
 				  author_id=author_id,
 				  content=content,
-				  time=time)
+				  time=datetime.now())
 	db.session.add(event)
 	db.session.commit()
 
 
 def newPost(title, content, author_id):
-	post_id = uuid.uuid1().int
-	time = datetime.now()
-
 	# write new event to the event table
-	event = Event(event_name='new_post', title=title, content=content, author_id=author_id, time=time)
+	event = Event(event_name='new_post', title=title, content=content, author_id=author_id, time=datetime.now())
 	db.session.add(event)
 	db.session.commit()
 
