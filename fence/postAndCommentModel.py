@@ -4,9 +4,9 @@ from datetime import datetime
 from fence import db
 from fence.userModel import User
 from fence.eventModel import Event
+import os
 
-microserviceURL = "http://microservice-env.eba-m8eyw6ia.us-west-2.elasticbeanstalk.com/"
-
+microserviceURL = os.environ['FENCE_MICROSERVICE_URL']
 
 # returns posts whose content or title have the search_string as a substring
 def search(search_string):

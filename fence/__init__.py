@@ -8,9 +8,10 @@ import os
 app = Flask(__name__)
 
 # used to generate signatures and protect the web forms against cross-site request forgery
-app.config['SECRET_KEY'] = 'a8d5u2grr7lo2cp'
+app.config['SECRET_KEY'] = os.environ['FENCE_MAIN_APP_SECRET_KEY']
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://nico:.Seng401@aa1jkdj3cz1d2sd.cq1jyeha7bzs.us-west-2.rds.amazonaws.com/ebdb"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{os.environ['FENCE_MAIN_APP_DB_USER']}:{os.environ['FENCE_MAIN_APP_DB_PASSWORD']}@{os.environ['FENCE_MAIN_APP_DB_HOST']}/{os.environ['FENCE_MAIN_APP_DB_NAME']}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
